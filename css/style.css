@@ -4,15 +4,20 @@
     box-sizing: border-box;
 }
 .chart-container{
-    width: 130vmin;
-    height: 100vmin;
+    width: 100vw;
+    height: 100vh;
+    
 }
 .container{
-    width: 100vw;
+    width:100vw;
     height: 100vh;
     display: flex;
     flex-direction: column;
+    justify-content: space-evenly;
    align-items: center;
+}
+.covidMedicalConditions{
+    margin-top:3vmin
 }
 /*
 WINDMILL
@@ -65,4 +70,9 @@ WINDMILL
     transform: rotateZ(720deg) translate3d(0, 0, 0);
   }
 }
-
+/* Countries Links */
+.countriesLinks{
+    display:flex;
+    flex-wrap: wrap;
+    width: 50vw;
+}
