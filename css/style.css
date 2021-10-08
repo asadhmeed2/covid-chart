@@ -1,13 +1,18 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
 .chart-container{
-    width: 50vw;
-    height: 50vh;
+    width: 130vmin;
+    height: 100vmin;
 }
 .container{
     width: 100vw;
     height: 100vh;
     display: flex;
-    justify-content: center;
-  
+    flex-direction: column;
+   align-items: center;
 }
 /*
 WINDMILL

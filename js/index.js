@@ -7,11 +7,11 @@ async function getData(){
         data1 = await (await fetch('https://corona-api.com/countries')).json();
         data2 = await (await fetch('https://cors-anywhere.herokuapp.com/https://restcountries.herokuapp.com/api/v1')).json();
     let index =0;
-        dataObjects =Array.from(data1.data).map(item=>{
+        dataObjects =Array.from(data1.data).map((item,i)=>{
         ++index;
         return{
-            name: data2[index-1].name.common,
-            region: data2[index-1].region,
+            name: data2[i].name.common,
+            region: data2[i].region,
             code:item.code,
             confirmed: item.latest_data.confirmed,
             critical: item.latest_data.critical,
@@ -62,7 +62,8 @@ function setCart(covidData){
             ],
             borderWidth: 1,
             tension: 0.4,
-            fill:true
+            fill:true,
+                responsive:true
         }]
     },
         options: {
