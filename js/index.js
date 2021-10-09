@@ -14,8 +14,8 @@ async function getData() {
     let data1 = {};
     let data2 = {};
     let dataObjects = {};
-   
-    if (date.getTime() > JSON.parse(localStorage.getItem('date'))+DAY_MS ||!(localStorage.getItem('asia') && localStorage.getItem('europe') && localStorage.getItem('africa') && localStorage.getItem('oceania') && localStorage.getItem('americas') && localStorage.getItem('world'))) {
+
+    if (date.getTime() > JSON.parse(localStorage.getItem('date')) + DAY_MS || !(localStorage.getItem('asia') && localStorage.getItem('europe') && localStorage.getItem('africa') && localStorage.getItem('oceania') && localStorage.getItem('americas') && localStorage.getItem('world'))) {
         try {
             localStorage.clear();
             localStorage.setItem('date', JSON.stringify(date.getTime()))
@@ -63,7 +63,6 @@ async function getData() {
     }
 
 
-    console.log(date.getTime() + 86400000);
 
     document.querySelector('.spinner').style.display = "none";
     addEventListnerToButtons();
