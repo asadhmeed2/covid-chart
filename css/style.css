@@ -9,12 +9,11 @@
   position: relative;
 }
 .container {
-  width:100vw;
+  width: 100vw;
   display: flex;
   flex-direction: column;
-  
+
   align-items: center;
- 
 }
 .covidMedicalConditions {
   margin-top: 3vmin;
@@ -80,17 +79,21 @@ WINDMILL
   font-size: 1vmax;
   gap: 2vh;
 }
-.countriesLinks span:hover {
+.countriesLinks a {
+  text-decoration: none;
+  color: #000000;
+}
+.countriesLinks a:hover {
   text-decoration: underline;
   cursor: pointer;
 }
-.country-data{
+.country-data {
   display: flex;
   flex-wrap: wrap;
   position: absolute;
   top: 30vmin;
   left: 30vmin;
-  
+  visibility: hidden;
 }
 .box {
   width: 15vmin;
@@ -104,17 +107,21 @@ WINDMILL
   font-size: 2vmin;
 }
 .box div {
-  margin-top:1vmax;
+  margin-top: 1vmax;
+}
+.spinner {
+  position: absolute;
+  top: 50vh;
+  left: 50;
 }
 @media (max-width: 500px) {
-  .country-data{
+  .country-data {
     top: 10vmin;
     left: 40vw;
-    
+
     flex-direction: column;
   }
-  .box{
+  .box {
     margin: 1vmin;
-
   }
 }
