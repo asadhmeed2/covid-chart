@@ -20,9 +20,27 @@
         <div class="chart-container">
             <canvas id="myChart"></canvas>
         </div>
-        <div class="country-data-wraper" id="country-data">
-
+        <div class="country-data">
+            <div class="box">
+                <label for="recovered">Total cases:</label><div id="cases-total" name="recovered"></div>
+            </div>
+            <div class="box">
+                <label for="new-cases`">New cases:</label><div id="new-cases" name="new-cases"></div>
+            </div>
+            <div class="box">
+                <label for="total-deaths">Total death:</label><div  id="total-deaths" name="total-deaths"></div>
+            </div>
+            <div class="box">
+                <label for="new-deaths">New deaths:</label><div  id="new-deaths"  name="new-deaths"></div>
+            </div>
+            <div class="box">
+                <label for="total-recovered">Total recovered:</label><div id="total-recovered" name="total-recovered"></div>
+            </div>
+            <div class="box">
+                <label for="critical">Critical:</label><div id="critical" name="critical"></div>
+            </div>
         </div>
+      
         <div class="covidMedicalConditions">
             <input type="button" value="Confirmed" id="confirmed-btn">
             <input type="button" value="Recovered" id="recovered-btn">
@@ -37,7 +55,11 @@
             <input type="button" value="Oceania" id="oceania-btn">
             <input type="button" value="World" id="world-btn">
         </div>
-        <div id="footer">
+        
+        <div id="footer-wraper">
+            <div id="footer"class="countriesLinks">
+                
+            </div>
 
         </div>
     </div>

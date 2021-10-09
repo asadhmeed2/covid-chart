@@ -2,6 +2,8 @@
 
 let myChart =null;
 let region="";
+
+
 async function getData() {
     let data1 = {};
     let data2 = {};
@@ -9,26 +11,28 @@ async function getData() {
     if (!(localStorage.getItem('asia') && localStorage.getItem('europe') && localStorage.getItem('africa') && localStorage.getItem('oceania') && localStorage.getItem('americas')&& localStorage.getItem('world'))) {
         try{
             data1 = await (await fetch('https://corona-api.com/countries')).json();
-            data2 = await (await fetch('https://api.allorigins.win/raw?url=https://restcountries.herokuapp.com/api/v1')).json();
-            console.log(data2);
- dataObjects = Array.from(data1.data).map((item, i) => {
-          
-            return {
-                name: data2[i].name.common,
-                region: data2[i].region,
-                code: item.code,
-                confirmed: item.latest_data.confirmed,
-                critical: item.latest_data.critical,
-                deaths: item.latest_data.deaths,
-                recovered: item.latest_data.recovered,
-                population: item.population,
-                today: {
-                    deaths: item.today.deaths,
-                    confirmed: item.today.confirmed
+            data2 = await (await fetch('https://api.allorigins.win/raw?url=https://restcountries.herokuapp.com/api/v1')).json();          
+            let namesAndRegionsData ={};
+            
+            Array.from(data2).map(el => {
+                namesAndRegionsData[el.cca2]={
+                    name:el.name.common,
+                    region:el.region
                 }
-            }
-        })
-
+            })
+            Array.from(data1.data).map(el => {
+                namesAndRegionsData[el.code]['confirmed'] = el.latest_data.confirmed
+                namesAndRegionsData[el.code]['critical'] = el.latest_data.critical
+                namesAndRegionsData[el.code]['deaths'] = el.latest_data.deaths
+                namesAndRegionsData[el.code]['recovered'] = el.latest_data.recovered
+                namesAndRegionsData[el.code]['population'] = el.population
+                namesAndRegionsData[el.code]['confirmed'] = el.latest_data.confirmed
+                namesAndRegionsData[el.code]['today'] ={
+                    deaths: el.today.deaths,
+                    confirmed: el.today.confirmed
+                }
+            })
+        dataObjects = Object.values(namesAndRegionsData)
         dataObjects = dataObjects.filter(el => el.region.length > 0);
         let asia = dataObjects.filter(el => el.region === "Asia");
         let europe = dataObjects.filter(el => el.region === "Europe");
@@ -41,10 +45,8 @@ async function getData() {
         localStorage.setItem("africa", JSON.stringify(africa))
         localStorage.setItem("oceania", JSON.stringify(oceania))
         localStorage.setItem("americas", JSON.stringify(americas))
-   
         }catch(error){
             console.log(error);
-
         }
     }
        
@@ -69,12 +71,16 @@ function addEventListnerToButtons() {
 function updateChart(typeOfAddedData, typeOfCases = "confirmed") {
     let names = [];
     let numbers = [];
+    document.querySelector('.country-data').style.visibility = 'hidden';
+    document.querySelector('.chart-container').style.visibility = 'visible';
     region=typeOfAddedData;
      Array.from(JSON.parse(localStorage.getItem(typeOfAddedData))).map(el => {
         names = [...names, el.name];
         numbers = [...numbers, el[typeOfCases]]
     })
     setChart({ names: names, numbers: numbers }) ;
+    createFooter() ;
+    addEventListenerToFooter();
 }
 
 
@@ -83,6 +89,8 @@ function setChart(covidData) {
     if(myChart){
         myChart.destroy();
     }
+    Chart.defaults.font.size = 8;
+    
      myChart= new Chart(ctx, {
         type: 'line',
         data: {
@@ -124,8 +132,36 @@ function setChart(covidData) {
 
 function createFooter() {
 let footer = document.querySelector('#footer');
-    let countries = JSON.parse(localStorage.getItem(region));
-let countriesString = Array.from(countries).map(el=>{
+footer.innerHTML = '';    
+let countries = JSON.parse(localStorage.getItem(region));
+   
+    let countriesString = Array.from(countries).map((el,i)=>{
+        return `<span class="country" id="country${i}"> ${el.name} </span>`
+    })
+    console.log(countriesString.join(' '));
+footer.innerHTML =countriesString.join("");
+
+}
+function addEventListenerToFooter(){
+    Array.from(document.querySelectorAll('.country')).forEach(el => {
+        el.addEventListener('click', handleCountry);
+    })
     
-})
+}
+
+function handleCountry(e){
+    let regionCountries = JSON.parse(localStorage.getItem(region));
+    let countryData = {};
+    console.log(e.target.id);
+    let indexOfCountry = parseInt(e.target.id.substr('country'.length-e.target.id.length));
+    countryData = regionCountries[indexOfCountry];
+    document.querySelector('#cases-total').textContent = countryData.confirmed;
+    document.querySelector('#new-cases').textContent = countryData.today.confirmed;
+    document.querySelector('#total-deaths').textContent = countryData.deaths;
+    document.querySelector('#new-deaths').textContent = countryData.today.deaths;
+    document.querySelector('#total-recovered').textContent = countryData.recovered;
+    document.querySelector('#critical').textContent = countryData.critical;
+    document.querySelector('.chart-container').style.visibility = 'hidden';
+    document.querySelector('.country-data').style.visibility = 'visible';
+    
 }
